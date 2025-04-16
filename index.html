@@ -1,158 +1,686 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Single Page Website</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Develop Web System - Professional Web Development Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: #3498db;
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.2s ease-out;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: #3498db;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.7)), url('/api/placeholder/1200/800') center/cover;
+            height: 600px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #2c3e50;
+        }
+        
+        .services-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .service-box {
+            background-color: white;
+            border-radius: 5px;
+            padding: 30px;
+            margin-bottom: 30px;
+            width: calc(33.33% - 20px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        
+        .service-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .about {
+            background-color: #f1f1f1;
+        }
+        
+        .about-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .about-img {
+            width: 45%;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .about-img img {
+            width: 100%;
+            display: block;
+        }
+        
+        .about-text {
+            width: 50%;
+        }
+        
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .projects-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .project-box {
+            width: calc(33.33% - 20px);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 250px;
+            display: block;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(44, 62, 80, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.5s;
+        }
+        
+        .project-box:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .project-overlay h3 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .project-overlay p {
+            color: #ddd;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .testimonials {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+        
+        .testimonial-box {
+            background-color: white;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-box p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .client-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .client-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .client-img img {
+            width: 100%;
+        }
+        
+        .client-name h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .client-name p {
+            margin: 0;
+            font-style: normal;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .contact {
+            background-color: white;
+        }
+        
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .contact-info {
+            width: 45%;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-details p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-details i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .contact-form {
+            width: 50%;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .footer-logo span {
+            color: #3498db;
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .social-links li {
+            margin-left: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .service-box {
+                width: calc(50% - 15px);
+            }
+            
+            .project-box {
+                width: calc(50% - 15px);
+            }
+            
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .about-img, .about-text {
+                width: 100%;
+            }
+            
+            .about-img {
+                margin-bottom: 30px;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .contact-info, .contact-form {
+                width: 100%;
+            }
+            
+            .contact-info {
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .service-box {
+                width: 100%;
+            }
+            
+            .project-box {
+                width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Develop <span>Web</span> System</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <!-- Navigation -->
-
-  <nav>
-    <div class="name">
-      <h1>Develop Web System</h1>
-    </div>
-    <div class="menu-toggle" id="mobile-menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </div>
-    <ul class="nav-list">
-      <li><a href="#info">About</a></li>
-      <li><a href="#benefits">Benefits of Website</a></li>
-      <li><a href="#projects">Our Projects</a></li>
-      <li><a href="#services">Our Services</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-  <div class="scroll-line" id="scrollLine"></div>
-  <div class="content">
-    <center>
-      <h1>Welcome to Develop Web System</h1>
-    </center>
-    <img src="code.gif" class="firstimg">
-
-    <!-- About Section -->
-    <section id="info">
-
-      <center>
-        <h2>About Us</h2>
-      </center>
-      <h3>
-        <p>Empower your business with a custom website designed to elevate your brand and expand
-          your reach. Our team
-          builds affordable, high-quality websites that are optimized for growth, giving you the tools you need to
-          attract customers and drive sales. Perfect for businesses of all sizes, our websites blend functionality and
-          style to help you succeed online without stretching your budget.
-          Start growing your business with a website that works for you!</p>
-      </h3>
+    <section id="home" class="hero">
+        <h1>Professional Web Solutions for Your Business</h1>
+        <p>We create custom websites and software solutions for medium to large businesses at affordable rates. Our team of experts specializes in PHP development and delivers high-quality, scalable solutions.</p>
+        <a href="#contact" class="btn">Get Started</a>
     </section>
 
-    <!-- benefits -->
-    <section id="benefits">
-      <center>
-        <h2>Benefits of website</h2>
-      </center>
-      <h3>A local shopkeeper who runs a grocery store decided to take his business online by launching his own website
-        to sell grocery items. After adopting this digital approach, he saw a remarkable growth of 50% to 80% in his business.
-        The website helped him reach more customers, who now enjoy the convenience of ordering their groceries online,
-        increasing both his customer base and sales. By going digital, he transformed his traditional business into a
-        modern, more profitable venture, showing how even small businesses can thrive with an online presence.</h3>
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-container">
+                <div class="service-box">
+                    <div class="service-icon">🌐</div>
+                    <h3>Website Development</h3>
+                    <p>We create responsive, user-friendly websites tailored to your business needs using modern technologies and best practices.</p>
+                </div>
+                <div class="service-box">
+                    <div class="service-icon">📱</div>
+                    <h3>Web Applications</h3>
+                    <p>Our team develops custom web applications with powerful PHP backends to streamline your business processes.</p>
+                </div>
+                <div class="service-box">
+                    <div class="service-icon">💼</div>
+                    <h3>Business Software</h3>
+                    <p>We build specialized software solutions for medium to large businesses to enhance productivity and efficiency.</p>
+                </div>
+                <div class="service-box">
+                    <div class="service-icon">🔧</div>
+                    <h3>Maintenance & Support</h3>
+                    <p>We provide ongoing support and maintenance services to keep your website and software running smoothly.</p>
+                </div>
+                <div class="service-box">
+                    <div class="service-icon">🚀</div>
+                    <h3>Performance Optimization</h3>
+                    <p>We optimize your existing websites and applications for better speed, performance, and user experience.</p>
+                </div>
+                <div class="service-box">
+                    <div class="service-icon">🔒</div>
+                    <h3>Security Solutions</h3>
+                    <p>We implement robust security measures to protect your website and data from threats and vulnerabilities.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services">
-      <center>
-        <h2>Our Services</h2>
-      </center>
-      <h2>
-        <p>We offer a wide range of services to meet your needs:</p>
-        <ul>
-          1.Creating custom Website.<br>
-          2.Creating different types of website.<br>
-          3.Sell at Affordable price.
-        </ul>
-      </h2>
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-container">
+                <div class="about-img">
+                    <img src="/api/placeholder/600/400" alt="Our Team">
+                </div>
+                <div class="about-text">
+                    <h2>We Create Digital Solutions That Drive Business Growth</h2>
+                    <p>At Develop Web System, we're passionate about creating powerful websites and software solutions that help businesses succeed in the digital landscape. Our team of experienced developers specializes in PHP development and delivers high-quality, scalable solutions at affordable rates.</p>
+                    <p>Founded with a vision to provide enterprise-level web solutions to medium and large businesses, we have successfully completed numerous projects across various industries. Our focus on quality, innovation, and client satisfaction has helped us build long-lasting relationships with our clients.</p>
+                    <p>We believe in understanding your business needs thoroughly before proposing solutions, ensuring that our deliverables align perfectly with your goals and vision.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="projects">
-      <center>
-        <h2>Our Projects</h2>
-      </center>
-      <h3>Buy Unique</h3>
-      <div class="pro">
-        <a href="buyunique.rf.gd">E-commerce website - Quick-commerce</a>
-      </div>
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Our Projects</h2>
+            <div class="projects-container">
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 1" class="project-img">
+                    <div class="project-overlay">
+                        <h3>E-commerce Platform</h3>
+                        <p>A comprehensive e-commerce solution developed for a retail chain with inventory management and sales analytics.</p>
+                    </div>
+                </div>
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 2" class="project-img">
+                    <div class="project-overlay">
+                        <h3>Healthcare Management System</h3>
+                        <p>A robust PHP-based system for managing hospital operations, patient records, and appointment scheduling.</p>
+                    </div>
+                </div>
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 3" class="project-img">
+                    <div class="project-overlay">
+                        <h3>Real Estate Portal</h3>
+                        <p>A feature-rich property listing and management platform with advanced search and filtering options.</p>
+                    </div>
+                </div>
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 4" class="project-img">
+                    <div class="project-overlay">
+                        <h3>Financial Services Website</h3>
+                        <p>A secure and responsive website for a financial institution with online banking features and customer portals.</p>
+                    </div>
+                </div>
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 5" class="project-img">
+                    <div class="project-overlay">
+                        <h3>Educational Platform</h3>
+                        <p>An interactive learning management system for schools and educational institutions with course management and grading tools.</p>
+                    </div>
+                </div>
+                <div class="project-box">
+                    <img src="/api/placeholder/400/250" alt="Project 6" class="project-img">
+                    <div class="project-overlay">
+                        <h3>Manufacturing ERP</h3>
+                        <p>A comprehensive enterprise resource planning system for a manufacturing company with supply chain management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-      <center>
-        <h2>Contact Us</h2>
-      </center>
-      <h1>
-        <p>Feel free to reach out to us at any time! We’re here to help.</p>
-      </h1>
-      <div class="pro">
-        <h4>click below button to contact us on whatsapp only<h4>
-            <a href="https://wa.me/message/P6AUVN3RBWKQH1">Contact us</a>
-      </div>
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <div class="testimonial-box">
+                <p>"Develop Web System delivered an outstanding e-commerce platform that exceeded our expectations. Their team's expertise in PHP development was evident in the robust and scalable solution they provided. We've seen a significant increase in our online sales since launch."</p>
+                <div class="client-info">
+                    <div class="client-img">
+                        <img src="/api/placeholder/60/60" alt="Client">
+                    </div>
+                    <div class="client-name">
+                        <h4>Michael Johnson</h4>
+                        <p>CEO, RetailPro Inc.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-box">
+                <p>"Working with Develop Web System was a great experience. They understood our business requirements perfectly and delivered a comprehensive healthcare management system that has streamlined our operations. Their affordable rates and quality work make them stand out."</p>
+                <div class="client-info">
+                    <div class="client-img">
+                        <img src="/api/placeholder/60/60" alt="Client">
+                    </div>
+                    <div class="client-name">
+                        <h4>Sarah Williams</h4>
+                        <p>Director, MediCare Hospital</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-  </div>
-  <!-- footer -->
-  <footer class="footer" role="contentinfo" itemscope itemtype="http://schema.org/WPFooter">
-    <div class="footer-left" itemscope itemtype="http://schema.org/Organization" class="h-card">
 
-      <h3 itemprop="name" class="p-name">Develop Web System</h3>
-      <nav aria-label="Footer Navigation">
-        <p class="footer-links">
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <div class="contact-details">
+                        <p><i>📍</i> Aurangabad , Maharashtra</p>
+                        <p><i>📞</i> 8055736797 only on whatsapp </p>
+                        <p><i>✉️</i> www.websitemaker.in@gmail.com </p>
+                        <p><i>⏰</i> Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    </div>
+                    <h3>Let's Connect</h3>
+                    <p>Have a project in mind? Let's discuss how we can help your business grow with our custom web solutions. Fill out the form or use our contact details to get in touch with us.</p>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="Your Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" placeholder="Your Message"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-          <a href="#" class="link-1" itemprop="url">Home</a>
-          <a href="#" itemprop="url">Blog</a>
-          <a href="#" itemprop="url">Gallery</a>
-          <a href="#contact" itemprop="url">Contact</a>
-        </p>
-      </nav>
-      <p class="footer-name">Develop Web System © 2024</p>
-    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-logo">Develop <span>Web</span> System</div>
+                <ul class="social-links">
+                    <li><a href="#">FB</a></li>
+                    <li><a href="#">TW</a></li>
+                    <li><a href="#">IG</a></li>
+                    <li><a href="#">LI</a></li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Develop Web System. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-    <div class="footer-center">
-      <div itemscope itemtype="http://schema.org/PostalAddress" class="p-address">
-        <i class="fa fa-map-marker" aria-hidden="true"></i>
-        <p>
-          <span itemprop="streetAddress" class="p-street-address">Aurangabad</span>
-          <span itemprop="postalCode" class="p-postal-code">431001</span>
-        </p>
-      </div>
-      <div>
-        <i class="fa fa-phone" aria-hidden="true"></i>
-        <p itemprop="telephone" class="p-tel">+918055736797</p>
-      </div>
-      <div>
-        <i class="fa fa-envelope" aria-hidden="true"></i>
-        <p><a href="mailto:support@company.com" itemprop="email" class="u-email">www.websitemaker.in@gmail.com</a></p>
-      </div>
-    </div>
-
-    <div class="footer-right">
-
-      <div class="footer-socials">
-        <a href="#" rel="me" aria-label="Facebook" itemprop="sameAs" class="u-url"><i
-            class="fa-brands fa-facebook"></i></a>
-        <a href="#" rel="me" aria-label="Twitter" itemprop="sameAs" class="u-url"><i
-            class="fa-brands fa-x-twitter"></i></a>
-        <a href="#" rel="me" aria-label="LinkedIn" itemprop="sameAs" class="u-url"><i
-            class="fa-brands fa-linkedin"></i></a>
-        <a href="#" rel="me" aria-label="GitHub" itemprop="sameAs" class="u-url"><i class="fa-brands fa-github"></i></a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
+    <script>
+        // Scroll Indicator Script
+        window.addEventListener('scroll', function() {
+            // Calculate how far down the page the user has scrolled
+            const scrollTop = window.scrollY;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            
+            // Update the width of the scroll indicator
+            document.getElementById('scrollIndicator').style.width = scrollPercentage + '%';
+        });
+    </script>
 </body>
-
 </html>
